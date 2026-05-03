@@ -16,7 +16,6 @@ export async function initializeDatabase(db: SQLiteDatabase) {
       chore_type_id INTEGER NOT NULL,
       date TEXT NOT NULL,
       quantity REAL NOT NULL,
-      is_custom INTEGER NOT NULL DEFAULT 0,
       updated_at TEXT NOT NULL DEFAULT (datetime('now')),
       FOREIGN KEY (chore_type_id) REFERENCES chore_types(id) ON DELETE CASCADE,
       UNIQUE(chore_type_id, date)
