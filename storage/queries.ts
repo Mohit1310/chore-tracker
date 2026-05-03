@@ -20,6 +20,32 @@ export interface MonthlyBill {
   total_bill: number;
 }
 
+export interface ChoreTypeWithTodayEntry extends ChoreType {
+  today_quantity: number;
+  has_override: boolean;
+}
+
+export async function listChoreTypesWithTodayEntry(
+  db: SQLiteDatabase,
+  date: string
+): Promise<ChoreTypeWithTodayEntry[]> {
+  return await db.getAllAsync<ChoreTypeWithTodayEntry>(
+    `SELECT
+      c.id,
+      c.name,
+      c.unit,
+      c.default_quantity,
+      c.price_per_unit,
+      COALESCE(e.quantity, c.default_quantity) AS today_quantity,
+      CASE WHEN e.id IS NOT NULL THEN 1 ELSE 0 END AS has_override
+    FROM chore_types c
+    LEFT JOIN daily_entries e
+      ON e.chore_type_id = c.id AND e.date = ?
+    ORDER BY c.created_at DESC`,
+    [date]
+  );
+}
+
 // 1. Create a new chore type
 export async function insertChoreType(
   db: SQLiteDatabase,

@@ -40,7 +40,7 @@ export const ChoreTypeItem = memo(function ChoreTypeItem({
         </View>
         <View className="items-end">
           <Text className="text-sm font-medium text-gray-700">
-            ${chore.price_per_unit.toFixed(2)}
+            ₹{chore.price_per_unit.toFixed(2)}
           </Text>
           <Text className="text-xs text-gray-400">per {chore.unit}</Text>
         </View>
