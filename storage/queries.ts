@@ -69,7 +69,32 @@ export async function listChoreTypes(db: SQLiteDatabase): Promise<ChoreType[]> {
   );
 }
 
-// 3. Get override entries for a given chore in a given month (YYYY-MM)
+// 3. Update a chore type
+export async function updateChoreType(
+  db: SQLiteDatabase,
+  id: number,
+  name: string,
+  unit: string,
+  defaultQuantity: number,
+  pricePerUnit: number
+): Promise<void> {
+  await db.runAsync(
+    `UPDATE chore_types
+     SET name = ?, unit = ?, default_quantity = ?, price_per_unit = ?
+     WHERE id = ?`,
+    [name, unit, defaultQuantity, pricePerUnit, id]
+  );
+}
+
+// 4. Delete a chore type (daily_entries cascade via FK)
+export async function deleteChoreType(
+  db: SQLiteDatabase,
+  id: number
+): Promise<void> {
+  await db.runAsync(`DELETE FROM chore_types WHERE id = ?`, [id]);
+}
+
+// 6. Get override entries for a given chore in a given month (YYYY-MM)
 export async function getMonthEntries(
   db: SQLiteDatabase,
   choreTypeId: number,
@@ -87,7 +112,7 @@ export async function getMonthEntries(
   );
 }
 
-// 4. Upsert a daily entry (insert or update override for a specific date)
+// 7. Upsert a daily entry (insert or update override for a specific date)
 export async function upsertDailyEntry(
   db: SQLiteDatabase,
   choreTypeId: number,
@@ -103,7 +128,7 @@ export async function upsertDailyEntry(
   );
 }
 
-// 5. Monthly bill calculation
+// 8. Monthly bill calculation
 //    Bill = (daysInMonth - overrideCount) × defaultQty × price + SUM(overrides.qty) × price
 export async function getMonthlyBill(
   db: SQLiteDatabase,
