@@ -32,10 +32,9 @@ export default function ManageScreen() {
 
   const handleChorePress = useCallback(
     (id: number) => {
-      // Will be implemented in edit step
-      console.log('Pressed chore:', id);
+      router.push(`/chore/${id}`);
     },
-    []
+    [router]
   );
 
   const renderItem = useCallback(

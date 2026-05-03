@@ -11,6 +11,7 @@ interface ChoreTypeFormProps {
     pricePerUnit: number;
   }) => void;
   onCancel: () => void;
+  onDelete?: () => void;
   initialValues?: {
     name: string;
     unit: string;
@@ -23,6 +24,7 @@ interface ChoreTypeFormProps {
 export function ChoreTypeForm({
   onSubmit,
   onCancel,
+  onDelete,
   initialValues,
   submitLabel = 'Save',
 }: ChoreTypeFormProps) {
@@ -154,6 +156,15 @@ export function ChoreTypeForm({
           <Text className="text-base font-semibold text-white">{submitLabel}</Text>
         </Pressable>
       </View>
+
+      {onDelete && (
+        <Pressable
+          onPress={onDelete}
+          className="mt-3 py-3 items-center active:opacity-70"
+        >
+          <Text className="text-sm font-semibold text-red-500">Delete Chore</Text>
+        </Pressable>
+      )}
     </View>
   );
 }

@@ -28,6 +28,14 @@ export default function RootLayout() {
                 sheetGrabberVisible: true,
               }}
             />
+            <Stack.Screen
+              name="chore/[id]"
+              options={{
+                presentation: 'formSheet',
+                headerShown: false,
+                sheetGrabberVisible: true,
+              }}
+            />
           </Stack>
           <StatusBar style="auto" />
         </SQLiteProvider>
